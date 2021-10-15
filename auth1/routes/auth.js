@@ -21,7 +21,7 @@ const schema = Joi.object({
 
 router.post('/register',async (req,res)=>{
 
-//lets validate the data before we a user
+//lets validate the data before create  a user
 const {error} = schema.validate(req.body);
 
 if(error)
@@ -62,10 +62,10 @@ const hashedPassword = await bcrypt.hash(req.body.password ,salt);
 router.post('/login', async(req,res)=>{
 
 
-    const {error} = schema.validate(req.body);
+//     const {error} = schema.validate(req.body);
 
-if(error)
-return res.status(400).send(error.message);
+// if(error)
+// return res.status(400).send(error.message);
 
 // checking if the email exist
 
@@ -79,11 +79,12 @@ if(!validPass) return res.status(400).send('Invalid password')
 
 //Create and assign a token
 
-const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET )
-console.log(token)
-res.header('auth-token', token).send(token);
 
-//fetch posts
+const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET )
+//console.log(token)
+res.header('auth-token', token).send({users,token});
+
+
 
 
 
